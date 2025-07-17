@@ -4,18 +4,14 @@ trigger:
       - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
-  resourceGroupName: codingassessment
-  dataFactoryName: datalakeassessment
-  location: 'Central India'  
+  resourceGroupName: 'codingassessment'
+  dataFactoryName: 'datalakeassessment'  
+  location: 'Central India' 
 
-stages:
-- stage: DeployADF
-  jobs:
-  - job: Deploy
-    steps:
+steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
@@ -25,6 +21,8 @@ stages:
     resourceGroupName: '$(resourceGroupName)'
     location: '$(location)'
     templateLocation: 'Linked artifact'
-    csmFile: '$(armTemplateFile)'
-    csmParametersFile: '$(armTemplateParametersFile)'
+    csmFile: 'ARMTemplateForFactory.json'
+    csmParametersFile: 'ARMTemplateParametersForFactory.json'
+    overrideParameters: '-factoryName "$(dataFactoryName)"'
     deploymentMode: 'Incremental'
+
