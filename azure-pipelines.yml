@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  resourceGroupName: datalake-rg
+  dataFactoryName: datalakeassessment
+  location: 'East US'  # or update if needed
+
+stages:
+- stage: DeployADF
+  jobs:
+  - job: Deploy
+    steps:
+    - task: AzureResourceManagerTemplateDeployment@3
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: 'AzureServiceConnection'  # your DevOps connection name
+        subscriptionId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'     # your Azure subscription ID
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: '$(resourceGroupName)'
+        location: '$(location)'
+        templateLocation: 'Linked artifact'
+        csmFile: 'adf_publish/ARMTemplateForFactory.json'
+        csmParametersFile: 'adf_publish/ARMTemplateParametersForFactory.json'
+        deploymentMode: 'Incremental'
