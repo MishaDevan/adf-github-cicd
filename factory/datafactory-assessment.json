@@ -1,0 +1,9 @@
+{
+	"name": "datafactory-assessment",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "10d409cb-dfc4-4840-bffa-07398c5b3b04",
+		"tenantId": "2d1fc60a-77bf-4b0c-9925-2b42c5312eea"
+	}
+}
