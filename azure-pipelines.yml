@@ -7,24 +7,24 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  resourceGroupName: datalake-rg
+  resourceGroupName: codingassessment
   dataFactoryName: datalakeassessment
-  location: 'East US'  # or update if needed
+  location: 'Central India'  
 
 stages:
 - stage: DeployADF
   jobs:
   - job: Deploy
     steps:
-    - task: AzureResourceManagerTemplateDeployment@3
-      inputs:
-        deploymentScope: 'Resource Group'
-        azureResourceManagerConnection: 'AzureServiceConnection'  # your DevOps connection name
-        subscriptionId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'     # your Azure subscription ID
-        action: 'Create Or Update Resource Group'
-        resourceGroupName: '$(resourceGroupName)'
-        location: '$(location)'
-        templateLocation: 'Linked artifact'
-        csmFile: 'adf_publish/ARMTemplateForFactory.json'
-        csmParametersFile: 'adf_publish/ARMTemplateParametersForFactory.json'
-        deploymentMode: 'Incremental'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'azure-rg-codingassessment'
+    subscriptionId: '9b3e5533-a1b4-494a-abc5-9f0041edd6c4'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(resourceGroupName)'
+    location: '$(location)'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(armTemplateFile)'
+    csmParametersFile: '$(armTemplateParametersFile)'
+    deploymentMode: 'Incremental'
